@@ -1,6 +1,3 @@
-Here’s a shorter version of the `README.md` for the Spotify clone:
-
-```markdown
 # Spotify Clone 🎶
 
 A **Spotify Clone** built using **Flutter**. This app replicates basic Spotify functionality like browsing music, playlists, and playing songs.
