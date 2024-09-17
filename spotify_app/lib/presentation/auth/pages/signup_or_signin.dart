@@ -7,6 +7,10 @@ import 'package:spotify_app/common/helpers/is_dark_mode.dart';
 import 'package:spotify_app/common/widgets/button/basic_app_button.dart';
 import 'package:spotify_app/core/config/assets/app_images.dart';
 import 'package:spotify_app/core/config/assets/app_vectors.dart';
+import 'package:spotify_app/presentation/auth/pages/login.dart';
+import 'package:spotify_app/presentation/auth/pages/regicter.dart';
+
+import '../../../common/widgets/appbar/app_bar.dart';
 
 class SignupOrSigninPage extends StatelessWidget {
   const SignupOrSigninPage({super.key});
@@ -16,6 +20,7 @@ class SignupOrSigninPage extends StatelessWidget {
     return Scaffold(
       body:Stack(
         children: [
+          BasicAppBar(),
           Align(
             alignment: Alignment.topRight,
             child: SvgPicture.asset(
@@ -32,37 +37,6 @@ class SignupOrSigninPage extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             child: Image.asset(
               AppImages.authBg
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child:  GestureDetector(
-              onTap: (){
-
-              },
-              child: ClipOval(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                      sigmaX: 10,
-                      sigmaY: 10
-                  ),
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    margin: EdgeInsets.symmetric(
-                      vertical: 30,
-                      horizontal: 30
-                    ) ,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xff30393c).withOpacity(0.5)
-                    ),
-                    child: Icon(
-                      Icons.arrow_back_ios_new
-                    )
-                  ),
-                ),
-              ),
             ),
           ),
           Align(
@@ -102,14 +76,24 @@ class SignupOrSigninPage extends StatelessWidget {
                           flex:1,
                           child: BasicAppButton(
                             title: 'Register',
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (BuildContext context)=>RegicterPage())
+                              );
+                            },
                           )
                       ),
                       SizedBox(width: 20,),
                       Expanded(
                         flex: 1,
                         child: TextButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (BuildContext context)=>LoginPage())
+                              );
+                            },
                             child: Text(
                               'Sign in',
                               style: TextStyle(
