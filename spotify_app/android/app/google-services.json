@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510679639833",
+    "project_id": "nice-c1bd2",
+    "storage_bucket": "nice-c1bd2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510679639833:android:915fd0f37a6dd9a9990788",
+        "android_client_info": {
+          "package_name": "com.example.spotify_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs_SSo20GDBmMCWZJygiWCwPM8E06f0a4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
