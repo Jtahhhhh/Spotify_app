@@ -8,6 +8,7 @@ import 'package:spotify_app/common/widgets/button/basic_app_button.dart';
 import 'package:spotify_app/core/config/assets/app_vectors.dart';
 import 'package:spotify_app/data/models/auth/create_user_req.dart';
 import 'package:spotify_app/domain/usecases/auth/signup.dart';
+import 'package:spotify_app/presentation/root/pages/root.dart';
 
 import '../../../common/widgets/appbar/app_bar.dart';
 import '../../../service_locator.dart';
@@ -23,6 +24,7 @@ class RegicterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: context.isDarkMode ?  Colors.black:Colors.white ,
       bottomNavigationBar: _signinText(context),
       appBar: BasicAppBar(
@@ -32,44 +34,49 @@ class RegicterPage extends StatelessWidget {
           width: 40,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 50,
-          horizontal: 50
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _registerText(),
-            const SizedBox(height: 50,),
-            _fullNameField(context),
-            const SizedBox(height: 20,),
-            _fullEmailField(context),
-            const SizedBox(height: 20,),
-            _fullPassWordField(context),
-            const SizedBox(height: 20,),
-            BasicAppButton(
-                onPressed: () async {
-                  var result = await sl<SignupUseCase>().call(
-                    param: CreateUserReq(
-                        fullName: _fullName.text.toString(),
-                        email: _email.text.toString(),
-                        password: _password.text.toString())
-                  );
-                  result.fold(
-                      (l){
-                        var snackBar = SnackBar(content: Text(l));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
-                      (r){
-                        var snackBar = SnackBar(content: Text(r));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                  );
-                },
-                title: 'Create Account'
-            )
-          ],
+      body:  SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 50,
+            horizontal: 50
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _registerText(),
+              const SizedBox(height: 50,),
+              _fullNameField(context),
+              const SizedBox(height: 20,),
+              _fullEmailField(context),
+              const SizedBox(height: 20,),
+              _fullPassWordField(context),
+              const SizedBox(height: 20,),
+              BasicAppButton(
+                  onPressed: () async {
+                    var result = await sl<SignupUseCase>().call(
+                      param: CreateUserReq(
+                          fullName: _fullName.text.toString(),
+                          email: _email.text.toString(),
+                          password: _password.text.toString())
+                    );
+                    result.fold(
+                        (l){
+                          var snackBar = SnackBar(content: Text(l));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                        (r){
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (BuildContext context)=> const RootPage()),
+                              (route)=>false
+                          );
+                        }
+                    );
+                  },
+                  title: 'Create Account'
+              )
+            ],
+          ),
         ),
       ),
     );

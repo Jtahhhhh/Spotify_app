@@ -12,7 +12,7 @@ class SlashPage extends StatefulWidget {
   State<SlashPage> createState() => _SlashPageState();
 }
 
-class _SlashPageState extends State<SlashPage> {
+class _SlashPageState extends State<SlashPage> with SingleTickerProviderStateMixin {
 
   @override
   void initState(){
