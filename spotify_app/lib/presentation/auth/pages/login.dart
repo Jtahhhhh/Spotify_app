@@ -4,12 +4,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_app/common/helpers/is_dark_mode.dart';
 import 'package:spotify_app/common/widgets/button/basic_app_button.dart';
 import 'package:spotify_app/core/config/assets/app_vectors.dart';
+import 'package:spotify_app/data/models/auth/signin_user_req.dart';
 import 'package:spotify_app/presentation/auth/pages/regicter.dart';
 
 import '../../../common/widgets/appbar/app_bar.dart';
+import '../../../domain/usecases/auth/signin.dart';
+import '../../../service_locator.dart';
+import '../../root/pages/root.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage ({super.key});
+  LoginPage ({super.key});
+
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +31,47 @@ class LoginPage extends StatelessWidget {
           width: 40,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-            vertical: 50,
-            horizontal: 50
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _loginText(),
-            const SizedBox(height: 50,),
-            const SizedBox(height: 20,),
-            _fullEmailField(context),
-            const SizedBox(height: 20,),
-            _fullPassWordField(context),
-            const SizedBox(height: 20,),
-            BasicAppButton(
-                onPressed: (){},
-                title: 'Login'
-            )
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+              vertical: 50,
+              horizontal: 50
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _loginText(),
+              const SizedBox(height: 50,),
+              const SizedBox(height: 20,),
+              _fullEmailField(context),
+              const SizedBox(height: 20,),
+              _fullPassWordField(context),
+              const SizedBox(height: 20,),
+              BasicAppButton(
+                  onPressed: () async {
+                    var result = await sl<SigninUseCase>().call(
+                        param: SignInUserReq(
+                            email: _email.text.toString(),
+                            password: _password.text.toString())
+                    );
+                    result.fold(
+                            (l){
+                          var snackBar = SnackBar(content: Text(l));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                            (r){
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (BuildContext context)=> const RootPage()),
+                                  (route)=>false
+                          );
+                        }
+                    );
+                  },
+                  title: 'Login'
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -59,6 +88,7 @@ class LoginPage extends StatelessWidget {
   }
   Widget _fullEmailField(BuildContext context){
     return TextField(
+      controller: _email,
       decoration: InputDecoration(
           hintText: 'Enter email'
       ).applyDefaults(
@@ -68,6 +98,7 @@ class LoginPage extends StatelessWidget {
   }
   Widget _fullPassWordField(BuildContext context){
     return TextField(
+      controller: _password,
       decoration: InputDecoration(
           hintText: 'Password'
       ).applyDefaults(

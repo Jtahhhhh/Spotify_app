@@ -8,9 +8,6 @@ import '../../../service_locator.dart';
 class SignupUseCase implements Usecase<Either,CreateUserReq>{
   @override
   Future<Either> call({CreateUserReq ? param}) {
-    // TODO: implement call
     return sl<AuthRepository>().signUp(param!);
   }
-
-
 }
